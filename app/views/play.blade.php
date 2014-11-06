@@ -7,6 +7,9 @@
 			<div class="embed-responsive embed-responsive-16by9">
 			  <iframe class="embed-responsive-item" src="//www.youtube.com/embed/{{$link->link}}"></iframe>
 			</div>
+			<div class="alert alert-warning" role="alert">
+				comments go here!
+			</div>
 		</div>
 
 		<div class='col-md-4'>
