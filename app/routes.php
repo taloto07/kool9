@@ -19,6 +19,9 @@ Route::get('videos/{countryId}/{categoryId}', array('uses'=>'HomeController@vide
 
 Route::get('play/{videoId}/{partNumber?}', array("uses" => "HomeController@getPlay"));
 
+// Testing user table
+Route::get('user/test', array('uses' => 'UserController@getTest'));
+
 
 /*
 / Unauthentication Group
@@ -28,20 +31,22 @@ Route::group(array("before" => "guest"), function(){
 	// CSRF protection group
 	Route::group(array("before" => "csrf"), function(){
 
-		Route::post("/user/create", array("uses" => "UserController@postCreate"));
+		Route::post("/user/signup", array("uses" => "UserController@postSignup"));
 
 		Route::post("/user/signin", array("uses" => "UserController@postSignin"));
 
 	});
 
-	Route::get("/user/create", array("uses" => "UserController@getCreate"));
+	Route::get("/user/signup", array("uses" => "UserController@getSignup"));
 
 	Route::get("/user/signin", array("uses" => "UserController@getSignin"));
+
+	Route::get("/user/activate/{activationCode}", array("uses" => "UserController@getActivate"));
 
 });
 
 /*
-/ Authenticated Group
+/ Authentication Group
 */
 Route::group(array("before" => "auth"), function(){
 	Route::get("/user/signout", array("uses" => "UserController@getSignout"));
