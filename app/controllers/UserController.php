@@ -167,9 +167,15 @@ class UserController extends BaseController{
 	/ Sign out user form system and redirect back home page with message
 	*/
 	public function getSignout(){
+		// logout from our own system
 		Auth::logout();
 
-		return Redirect::to('/')->with('global', 'You have Successfully logout!!');
+		// logout from facebook
+		$facebook = new Facebook(Config::get('facebook'));
+		$param = array('next' => url("/"));
+		$logout = $facebook->getLogoutUrl($param);
+
+		return Redirect::to($logout)->with('global', "You have successfully logged out!");
 	}
 
 	public function getSecure(){

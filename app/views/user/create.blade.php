@@ -31,7 +31,7 @@
 			</div>
 		@endif
 
-		<div class='row' ng-show='signupForm.$dirty && signupForm.$invalid'>
+		<div class='row hide-if-no-javascript' ng-show='signupForm.$dirty && signupForm.$invalid'>
 			<div class='alert alert-danger'>
 				<ul>
 					<li ng-show='signupForm.$dirty && signupForm.firstName.$error.required'>First Name is required!</li>

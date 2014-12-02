@@ -67,9 +67,12 @@
             <li><a href="#contact">Contact</a></li> -->
           </ul>	
           @if(!isset($home))
-            <form class="navbar-form navbar-right" role="form">
-              <div class="form-group">
-                <input type="text" placeholder="Search" class="form-control">
+            <form class="navbar-form navbar-right" role="form" action=" {{url("/search")}} " method="get">
+              <div class="form-group form-group-md">
+                <div class="input-group">
+                      <input class="form-control" type="text" placeholder="Search" name='k'>
+                      <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                  </div>
               </div>
             </form>
           @endif
@@ -84,6 +87,9 @@
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{ url('/user/signout') }}">Logout</a></li>
+                  @if(Auth::user()->email === "taloto07@gmail.com")
+                    <li><a href="{{ url('/admin/upload') }}">Upload</a></li>
+                  @endif
                 </ul>
               </li>
             </ul>
@@ -107,6 +113,17 @@
         <strong>{{ Session::get('global') }}</strong>
       </div>
     @endif
+
+    <noscript>
+      <style type="text/css">
+        .hide-if-no-javascript{
+          display: none;
+        }
+      </style>
+      <div class="alert alert-danger main">
+        <h2>Please, enable javascript to properly display all contents!!!</h2>
+      </div>
+    </noscript>
     
     {{ $content }}
 
@@ -147,5 +164,8 @@
       @endforeach
     @endif
 
+    {{ $inlineScript or "" }}
+    
+  
   </body>
 </html>

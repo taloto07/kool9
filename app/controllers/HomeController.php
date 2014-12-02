@@ -80,15 +80,20 @@ class HomeController extends BaseController {
 			return "Not Found";
 		}
 
-		$videos = Video::where('countries_categories_id', $countryCategoryId->id)->get();
+		$videos = Video::where('countries_categories_id', $countryCategoryId->id);
 
 		$view = View::make('video');
 		$view->videos = $videos;
 		$view->country = Country::find($countryId)->name;
 		$view->category = Category::find($categoryId)->name;
 
+		// get in-line script
+		$inlineScript = View::make('search.searchScript');
+		$inlineScript->videos = $videos;
+
 		$this->layout->countries = Country::all();	// get all countries for menu
 		$this->layout->content = $view;
+		$this->layout->inlineScript = $inlineScript;
 		$this->layout->title = "Video";
 
 		return $this->layout;
@@ -99,27 +104,70 @@ class HomeController extends BaseController {
 	/ part number of the video is set to 1 if not provided
 	*/
 	public function getPlay($videoId, $partNumber = 1){
+		$view = "";
 
 		$video = Video::find($videoId);
 
 		// handling video not found!!
 		if (is_null($video)){
 
-			return "No video found!!!";
+			$view = View::make("errors.video");
+
 		}
 
-		// increment video view by 1
-		$video->view++;
-		$video->save();
+		$link = $video->links()->where("video_order", "=", $partNumber)->first();
+		// handling part not found
+		if (is_null($link)) {
 
-		$view = View::make("play");
-		$view->video = $video;
-		$view->link = $video->links()->where("video_order", "=", $partNumber)->first();
-		$view->partNumber = $partNumber;
+			$view = View::make("errors.video");
+
+		}else{
+			// increment video view by 1
+			$video->view++;
+			$video->save();	
+
+			$view = View::make("play");
+			$view->video = $video;
+
+			// increment view count for link
+			$link->view++;
+			$link->save();
+
+			$view->link = $link;
+			
+			$view->partNumber = $partNumber;
+		}
 
 		$this->layout->countries = Country::all();	// get all countries for menu
 		$this->layout->content = $view;
 		$this->layout->title = "Play";				// set title of the video page
+
+		return $this->layout;
+	}
+
+	/* 
+	/ controller for searching videos
+	*/
+	public function getSearch(){
+
+		// get keyword form from form, fieldname is k
+		$keyword = Input::get('k');
+
+		// search for videos base on keyword
+		$videos = Video::where('name', 'LIKE', "%".$keyword."%");
+		
+		// get view for videos result
+		$view = View::make('search.search');
+		$view->videos = $videos;
+
+		// get in-line script
+		$inlineScript = View::make('search.searchScript');
+		$inlineScript->videos = $videos;
+
+		$this->layout->countries = Country::all();
+		$this->layout->content = $view;
+		$this->layout->inlineScript = $inlineScript;
+		$this->layout->title = "Search";
 
 		return $this->layout;
 	}

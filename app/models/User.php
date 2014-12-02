@@ -27,6 +27,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	protected $primaryKey = "id";
+
+
 	public function getRememberToken()
 	{
 	    return $this->remember_token;
@@ -40,5 +43,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getRememberTokenName()
 	{
 	    return 'remember_token';
+	}
+
+	public function getAuthIdentifier() {
+		return $this->getKey();
+	}
+
+	public function getAuthPassword() {
+		return $this->password;
+	}
+
+	public function profiles(){
+		return $this->hasMany('Profile');
 	}
 }

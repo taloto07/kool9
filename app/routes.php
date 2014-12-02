@@ -13,11 +13,13 @@
 
 Route::get('/', array('uses'=>'HomeController@index'));
 
-Route::get('authors/{name}', array('uses'=>'AuthorController@index'));
+Route::get('authors', array('uses'=>'AuthorController@index'));
 
 Route::get('videos/{countryId}/{categoryId}', array('uses'=>'HomeController@videos'));
 
 Route::get('play/{videoId}/{partNumber?}', array("uses" => "HomeController@getPlay"));
+
+Route::get('search', array("uses" => "HomeController@getSearch"));
 
 // Testing user table
 Route::get('user/test', array('uses' => 'UserController@getTest'));
@@ -43,13 +45,32 @@ Route::group(array("before" => "guest"), function(){
 
 	Route::get("/user/activate/{activationCode}", array("uses" => "UserController@getActivate"));
 
+	// facebook log in
+	Route::get("login/fb", array("uses" => "FacebookController@getLogin"));
+	Route::get("login/fb/callback", array("uses" => "FacebookController@getLoginCallback"));
+
 });
+
 
 /*
 / Authentication Group
 */
 Route::group(array("before" => "auth"), function(){
+	//CSRF protection group
+	Route::group(array("before" => "csrf"), function(){
+		Route::post("/admin/upload", array("uses" => "AdminController@postUpload"));
+	});
+
+	Route::get("/admin/upload", array("uses" => "AdminController@getUpload"));
+
 	Route::get("/user/signout", array("uses" => "UserController@getSignout"));
 
 	Route::get("/user/secure", array("uses" => "UserController@getSecure"));
 });
+
+
+/*
+/ Testing restful api route
+*/
+
+Route::resource('posts', 'PostsController');

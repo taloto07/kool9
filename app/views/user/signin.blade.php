@@ -1,4 +1,4 @@
-<div class='container signin-form' ng-app='loginApp' ng-controller='FormController as form'>
+<div class='container main' ng-app='loginApp' ng-controller='FormController as form'>
 
 	@if(Session::has('signin'))
 		<div class="alert alert-danger">
@@ -26,7 +26,7 @@
 			</div>
 		@endif
 		
-		<div class='row' ng-show='loginForm.$dirty && loginForm.$invalid'>
+		<div class='row hide-if-no-javascript' ng-show='loginForm.$dirty && loginForm.$invalid'>
 			<div class='alert alert-danger'>
 				<ul>
 					<li ng-show='loginForm.email.$dirty && loginForm.email.$error.required'>Email is required!</li>
@@ -36,6 +36,7 @@
 				</ul>
 			</div>
 		</div>
+		
 
 		<div class="row">
 			<form class="form-horizontal" role="form" method="post" action="{{ url("/user/signin") }}" name='loginForm'>

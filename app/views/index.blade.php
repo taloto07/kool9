@@ -2,10 +2,10 @@
 	<div class='container'>
 		<div class='row'>
 			<div class='col-md-offset-3 col-md-6'>
-				<form action='{{ url("/") }}' method='get'>
+				<form action='{{ url("/search") }}' method='get'>
 					<div class="form-group form-group-lg">
 						<div class="input-group">
-					      	<input class="form-control" type="text" placeholder="Search" name='key'>
+					      	<input class="form-control" type="text" placeholder="Search" name='k'>
 					      	<div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
 					    </div>
 					</div>
@@ -30,7 +30,7 @@
                     <img src="{{ url("$video->image") }}" width='300' height='300' class='img-thumbnail' title='{{$video->name}}'/>
                       </a>
                   <div class="caption">
-                    <h5>{{ substr($video->name, 0, 18) }}...</h5>
+                    <h5>{{ (substr($video->name, 0, 18)) }}...</h5>
                     <p>Views: <span class="label label-default">{{$video->view}}</span><p>
                     <p>Date: {{$video->date}}</p>
                   </div>

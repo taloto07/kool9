@@ -3,6 +3,10 @@ body {
     padding-top: 0px;
 }
 
+.hide-if-no-javascript{
+    display: true;
+}
+
 .nav-main{
     opacity: 0.9;
 }
@@ -13,8 +17,8 @@ div.navbar-collapse{
 }
 
 .intro-header{
-    padding-top: 200px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-    padding-bottom: 200px;
+    padding-top: 350px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 350px;
     text-align: center;
     color: #f8f8f8;
     background: url(../images/home.jpg) no-repeat center center fixed;
@@ -31,6 +35,13 @@ div.navbar-collapse{
 .content-section-b {
     /*padding: 20px 0;*/
     border-bottom: 1px solid rgb(51, 153, 153);
+}
+
+.content-form{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+    border-bottom: 1px solid rgb(51, 153, 153);    
 }
 
 footer{
